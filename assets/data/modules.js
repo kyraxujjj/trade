@@ -1,0 +1,86 @@
+export const MODULES = [
+  {
+    slug: "payment-infra",
+    name: "支付基础设施",
+    tag: "核心",
+    desc: "掌握支付网关、处理器、智能路由与故障转移。",
+    points: "74+",
+    tabs: ["概览", "网关", "处理器", "路由", "故障转移", "结算"],
+  },
+  {
+    slug: "card-payments",
+    name: "银行卡与卡组织",
+    tag: "核心",
+    desc: "信用卡/借记卡运作机制与全球卡组织概览。",
+    points: "19+",
+    tabs: ["概览", "授权流程", "卡组织", "本地卡网络"],
+  },
+  {
+    slug: "bank-transfer",
+    name: "银行转账与直接借记",
+    tag: "基础",
+    desc: "ACH、SEPA、BACS、电汇与实时支付全解析。",
+    points: "93+",
+    tabs: ["概览", "ACH", "SEPA", "BACS", "电汇", "实时支付"],
+  },
+  {
+    slug: "checkout-optimization",
+    name: "结账与转化优化",
+    tag: "实用",
+    desc: "降低购物车放弃率、一键结账、移动端优化。",
+    points: "28+",
+    tabs: ["概览", "放弃率", "结账设计", "一键结账", "移动端"],
+  },
+  {
+    slug: "checkout-optimization",
+    name: "结账与转化优化",
+    tag: "实用",
+    desc: "降低购物车放弃率、一键结账、移动端优化。",
+    points: "28+",
+    tabs: ["概览", "放弃率", "结账设计", "一键结账", "移动端"],
+  },
+  {
+    slug: "security-compliance",
+    name: "支付安全与合规",
+    tag: "合规",
+    desc: "PCI DSS、3D Secure、令牌化与加密。",
+    points: "24+",
+    tabs: ["概览", "PCI DSS", "3DS", "令牌化/加密"],
+  },
+  {
+    slug: "risk-management",
+    name: "风控与争议管理",
+    tag: "核心",
+    desc: "拒付、拒付率管理、错误拒绝与欺诈检测。",
+    points: "9+",
+    tabs: ["概览", "拒付", "欺诈", "错误拒绝"],
+  },
+  {
+    slug: "subscription-bnpl",
+    name: "订阅与分期付款",
+    tag: "热门",
+    desc: "BNPL、经常性支付、分期付款与催缴策略。",
+    points: "22+",
+    tabs: ["概览", "分期/BNPL", "经常性支付", "催缴"],
+  },
+  {
+    slug: "cross-border",
+    name: "跨境与国际支付",
+    tag: "进阶",
+    desc: "跨境支付机制、汇率、多币种与全球收单。",
+    points: "22+",
+    tabs: ["概览", "跨境", "汇率", "多币种", "全球收单"],
+  },
+  {
+    slug: "regional-guides",
+    name: "各国/地区支付指南",
+    tag: "实用",
+    desc: "日本、东南亚、欧洲、美洲等市场的支付全景。",
+    points: "204+",
+    tabs: ["概览", "亚太", "欧洲", "美洲", "其他"],
+  },
+];
+
+export function getModuleBySlug(slug) {
+  return MODULES.find((m) => m.slug === slug) || null;
+}

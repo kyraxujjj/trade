@@ -1,0 +1,12 @@
+[
+  {
+    "action": "skip_duplicate",
+    "kept": "./content/ach-vs-wire-transfers-vs-eft.md",
+    "removed": "./content/ach-vs-eft.md",
+    "reason": "acronym_match_prefer_cjk_title",
+    "acronyms": [
+      "ACH",
+      "EFT"
+    ]
+  }
+]
