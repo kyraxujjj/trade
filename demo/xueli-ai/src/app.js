@@ -51,8 +51,8 @@ function render(){const frame=FRAME_MAP[state.page];document.querySelector('#bac
 
 function setupCommon(){
  const xs=state.page===0?[811,901,992,1085,1170]:[810,902,994,1088,1180];['商城','积分兑换','学习记录','活动中心','家长中心'].forEach((n,i)=>hit(xs[i],12,82,90,n,()=>n==='家长中心'||n==='学习记录'?openParent():openInfo(n)));hit(40,10,250,90,'个人主页',()=>openInfo('个人主页'));
- const mic=state.page===0?[1102,416,145,139]:state.page===3?[1116,439,133,122]:state.page===4?[1110,423,136,137]:state.page===7?[1117,435,136,129]:[1141,443,133,124];hit(...mic,'麦克风：回答或提问',openMic,state.ended||(state.page===4&&!['awaiting','expression'].includes(state.deepPhase)));
- const rect=state.page===0?[131,96,266,446]:state.page===7?[135,105,350,485]:state.page===3?[83,130,224,417]:[22,158,246,398];hit(...rect,'雪梨老师：播放当前引导',teacherSpeak);document.querySelector('#speech-wave').style.cssText=`left:${rect[0]+35}px;top:${rect[1]+30}px;width:145px;height:145px`;
+ const mic=state.page===0?[1102,416,145,139]:state.page===3?[1116,439,133,122]:state.page===4?[1110,423,136,137]:state.page===7?[1117,435,136,129]:[1141,443,133,124];hit(...mic,'麦克风：孩子说话',openMic,state.ended||(state.page===4&&!['awaiting','expression'].includes(state.deepPhase)));
+ const rect=state.page===0?[131,96,266,446]:state.page===7?[135,105,350,485]:state.page===3?[83,130,224,417]:[22,158,246,398];hit(...rect,[0,4,7].includes(state.page)?'雪梨老师：播放当前引导':'雪梨老师：提问或寻求帮助',[0,4,7].includes(state.page)?teacherSpeak:openTeacherChat);document.querySelector('#speech-wave').style.cssText=`left:${rect[0]+35}px;top:${rect[1]+30}px;width:145px;height:145px`;
  if(![0,7].includes(state.page)){
   choiceButton(319,39,151,29,state.page===8?'‹ 返回欢迎页':state.page===9?'‹ 选择其他主题':'‹ 返回学习地图',()=>state.page===8?goWelcome():state.page===9?goTopics():goModules(),'app-back');
   paint(480,39,300,29,state.page===8?'今日学习':`爱干净${state.page===9?' · 学习地图':' / 单词'}`,'app-breadcrumb');
@@ -185,7 +185,7 @@ function renderLearning(){
  if(state.lessonPhase==='quiz'){renderQuiz();coach(currentQuestion().type==='speech'?`轮到你说 ${w.en} 啦！`:'看图，选一选～');return}
  if(!state.wordsSeen.includes(k))state.wordsSeen.push(k);
  paint(774,232,390,82,escapeText(w.en),'word-big');paint(777,313,385,41,escapeText(w.cn),'word-translation');paint(783,355,376,31,escapeText(w.example),'word-example');
- choiceButton(817,399,146,42,'听一听 '+w.en,()=>speak(w.en,'en-US'),'word-audio');choiceButton(981,399,171,42,'问问雪梨老师',openMic,'word-help');
+ choiceButton(817,399,146,42,'听一听 '+w.en,()=>speak(w.en,'en-US'),'word-audio');choiceButton(981,399,171,42,'问问雪梨老师',openTeacherChat,'word-help');
  paint(843,477,226,37,`试试 ${w.en} ›`,'button-copy');hit(813,460,288,70,'试试 '+w.en,startQuiz);coach(`来认识 ${w.en} 吧！`);
 }
 
@@ -314,20 +314,28 @@ function finish(){if(!state.byePlayed)return;state.ended=true;stopSpeech();rende
 
 function show(title,body){modalMode='info';modal.innerHTML=`<div class="modal"><header><h2>${escapeText(title)}</h2><button class="secondary" onclick="dismiss()">关闭 ×</button></header>${body}</div>`;modal.classList.remove('hidden')}
 function dismiss(){modal.classList.add('hidden');modalMode='';}
+function openTeacherChat(){openInput(true)}
 function openMic(){
+ if(state.ended)return;
+ if(state.page===1&&state.lessonPhase==='learn'){modalMode='ask';dispatch('__read__');return}
+ if(state.page===1&&state.lessonPhase==='quiz'&&currentQuestion().type!=='speech'){toast('先看图选答案，轮到开口时再点麦克风说词。');return}
+ if([2,5,6].includes(state.page)){toast('现在是学习回顾。想问问题，可以点雪梨老师。');return}
+ openInput();
+}
+function openInput(teacher=false){
  if(state.ended)return;let title='和雪梨老师说说话',options=[],intro='',mode='ask',disabled=false;
  if(state.page===0){mode='welcome';title='和老师打个招呼';options=[['老师好！','老师好！']];intro='打个招呼后，我们一起选择今天的学习主题。'}
  else if(state.page===8||state.page===9){mode='catalog';title=state.page===8?'今天想学什么？':'想从哪个模块开始？';intro=state.page===8?'可以点击主题卡，也可以告诉老师你想学什么。':state.moduleCompleted?'今天的单词任务完成啦，可以看看今日收获。':'今天开放单词模块，老师陪你看图、理解、开口。';options=state.page===8?[['我想学爱干净','我想学爱干净'],['我想看动物','我想看动物']]:state.moduleCompleted?[['看看今天的收获','看看今天的收获']]:[['我想学单词','我想学单词'],['我想看视频','我想看视频']];}
- else if(state.page===1&&state.lessonPhase==='quiz'&&currentQuestion().type==='speech'){
+ else if(!teacher&&state.page===1&&state.lessonPhase==='quiz'&&currentQuestion().type==='speech'){
   mode='quiz';title='开口说词 · '+currentQuestion().target;const q=currentQuestion();disabled=state.exerciseRecords.some(r=>r.questionId===q.id);intro=disabled?'这个词已经提交，请返回继续学习。':q.prompt;
   if(!disabled)options=[['识别为：'+q.target,q.target],['识别为：'+q.sampleWrong,q.sampleWrong],['识别不清楚','__unclear__']];
  }
- else if(state.page===3){mode='review';const q=currentReview();disabled=state.reviewDone||state.reviewPending;title='再练 '+q.target+' · '+(q.type==='speech'?'开口':'理解');intro=disabled?'这一项已完成，点击页面主按钮继续。':q.prompt;if(!disabled)options=q.type==='speech'?[[q.target+' · 完整说词',q.target],['识别不清楚','__unclear__']]:q.choices.map((t,i)=>[t,i]);}
- else if(state.page===4){mode='deep';title='把英语用到生活里';intro='可以先说中文，老师会帮你连接到英语。';disabled=!['awaiting','expression'].includes(state.deepPhase)||state.deepFinished;options=state.deepPhase==='awaiting'?[['洗手','洗手'],['收玩具','收玩具'],['我想聊恐龙','恐龙']]:state.deepPhase==='expression'?[['wash hands','wash hands'],['表达还没完整','wash']]:[];}
+ else if(!teacher&&state.page===3){mode='review';const q=currentReview();disabled=state.reviewDone||state.reviewPending;title='再练 '+q.target+' · '+(q.type==='speech'?'开口':'理解');intro=disabled?'这一项已完成，点击页面主按钮继续。':q.prompt;if(!disabled)options=q.type==='speech'?[[q.target+' · 完整说词',q.target],['识别不清楚','__unclear__']]:q.choices.map((t,i)=>[t,i]);}
+ else if(!teacher&&state.page===4){mode='deep';title='把英语用到生活里';intro='可以先说中文，老师会帮你连接到英语。';disabled=!['awaiting','expression'].includes(state.deepPhase)||state.deepFinished;options=state.deepPhase==='awaiting'?[['洗手','洗手'],['收玩具','收玩具'],['我想聊恐龙','恐龙']]:state.deepPhase==='expression'?[['wash hands','wash hands'],['表达还没完整','wash']]:[];}
  else if(state.page===7){mode='bye';title='和雪梨老师道别';options=[['老师再见！','老师再见！']];}
  else if(state.page===1){const w=WORDS[WORD_KEYS[state.wordIndex]];intro='老师知道你正在学 '+w.en+'，问完后回到当前词卡继续。';options=[[w.en+' 是什么意思？',w.en+' 是什么意思'],['这张图片里有什么？','这张图片里有什么'],...(state.lessonPhase==='learn'?[['我想跟读这个词','__read__']]:[]),['我想聊恐龙','恐龙']]}
  else options=[['这次哪里还需要练？','这次哪里还需要练']];
- const log=state.page===3?state.reviewLog:state.page===4?state.deepLogs:state.aiChat;
+ const log=mode==='review'?state.reviewLog:mode==='deep'?state.deepLogs:state.aiChat;
  show(title,`<div class="context">${state.selectedTopic?'主题：爱干净':'选择今日主题'}${state.selectedModule?' · 单词模块':''}${state.page===1?' · 当前词：'+WORD_KEYS[state.wordIndex]:''}</div><p>${escapeText(intro)}</p><div class="chat-log">${log.slice(-4).map(x=>`<div class="chat-line ${x.role==='child'?'child':''}">${escapeText(x.text)}</div>`).join('')}</div><div class="choices">${options.map((x,i)=>`<button onclick="chooseMic(${i})">${escapeText(x[0])}</button>`).join('')}</div><div class="input-row"><input id="mic-input" aria-label="孩子的问题或回答" placeholder="输入孩子的话" onkeydown="if(event.key==='Enter')sendMic()"><button onclick="sendMic()">发送</button></div>${mode==='ask'?'<button class="secondary return-task" onclick="dismiss()">继续当前学习</button>':''}<p class="note">演示输入区：预设结果或文字模拟语音识别，不采集录音；老师使用浏览器语音。</p>`);
  modalMode=mode;modal.dataset.options=JSON.stringify(options);
  if(disabled||(['ask','catalog'].includes(mode)&&state.aiTurns>=3)){document.querySelector('#mic-input').disabled=true;modal.querySelectorAll('.choices button,.input-row button').forEach(x=>x.disabled=true)}
@@ -352,7 +360,7 @@ function catalogAnswer(text){
  if(state.page===8&&/爱干净|clean/i.test(text)){dismiss();selectTopic('cleanliness');return}
  if(state.page===9&&/单词|word/i.test(text)){dismiss();startModule();return}
  if(state.page===9&&state.moduleCompleted&&/收获|总结/.test(text)){dismiss();enter(6);return}
- const answer=state.page===8?'其他主题会陆续开放，今天先选爱干净，老师陪你学。':'其他模块会陆续开放，今天先从单词开始。';state.aiChat.push({role:'child',text},{role:'teacher',text:answer});openMic();speak(answer);if(state.aiTurns>=3)later(()=>dismiss(),3000);
+ const answer=state.page===8?'其他主题会陆续开放，今天先选爱干净，老师陪你学。':'其他模块会陆续开放，今天先从单词开始。';state.aiChat.push({role:'child',text},{role:'teacher',text:answer});openInput(modalMode==='ask');speak(answer);if(state.aiTurns>=3)later(()=>dismiss(),3000);
 }
 
 function submitLearning(text){if(!text.trim()||state.lessonPhase!=='learn')return;const w=WORDS[WORD_KEYS[state.wordIndex]],pass=norm(text)===norm(w.en);recordChild(text,'词卡试读');state.practiceReads.push({key:w.en,target:w.en,answer:text,pass,time:Date.now()});dismiss();render();toast(pass?'这个词试读完整啦！接下来再检查理解和开口。':'这个词还不清楚，先听老师说一遍。');speak(pass?'说出来啦！我们继续试试这个词。':w.en,pass?'zh-CN':'en-US');}
@@ -368,7 +376,7 @@ function answerQuestion(text){
  else if(/房间/.test(text))answer=WORDS.room.tip;
  else if(/整理/.test(text))answer=WORDS.tidy.tip;
  else answer='这个很有趣，我们先把当前的 '+current.en+' 学完，再继续今天的任务吧。';
- if(state.aiTurns>=3)answer+=' 我们先回到当前词卡继续。';state.aiChat.push({role:'child',text},{role:'teacher',text:answer});openMic();speak(answer);if(state.aiTurns>=3)later(()=>dismiss(),4200)
+ if(state.aiTurns>=3)answer+=' 我们先回到当前词卡继续。';state.aiChat.push({role:'child',text},{role:'teacher',text:answer});openInput(modalMode==='ask');speak(answer);if(state.aiTurns>=3)later(()=>dismiss(),4200)
 }
 
 function showWeak(){const rows=wrongRecords();show('单词学习 · 原始记录',rows.length?rows.map(r=>`<div class="record-row"><b>${r.target} · ${r.type==='speech'?'开口':'理解'}</b><p>原答案：${escapeText(r.answer)}<br>${escapeText(r.reason)}<br>当前状态：${unresolvedRecords().some(v=>v.questionId===r.questionId)?'待巩固':'补练已通过'}</p></div>`).join(''):'<p>四个单词的理解和开口检查都通过啦，没有生成错题。</p>')}
