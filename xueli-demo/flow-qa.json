@@ -1,15 +1,120 @@
 {
   "errors": [],
-  "sameDomPageAndMic": "passed",
-  "firstCorrectBypass": "passed",
-  "boundedInlineRetries": "passed",
-  "reviewDoesNotCountPlayback": "passed",
-  "targetedReviewAndReportRefresh": "passed",
-  "positiveArrows": "passed",
-  "samePageAliases": "passed",
-  "screens": 18,
-  "all_six_fields": true,
-  "overflows": [],
-  "internal_terms_in_product": [],
-  "positive_arrow_count": 8
+  "wholeGroupBeforePractice": "passed",
+  "weakItemsOnly": "passed",
+  "queueStaysOnPracticePage": "passed",
+  "allCorrectBypassesPractice": "passed",
+  "skipAndBoundedFailure": "passed",
+  "perItemReportAndReview": "passed",
+  "layout": [
+    {
+      "id": "A1",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "A2",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "A3",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "A4",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "A5",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "A6",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "A7",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "B1",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "B3",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "B4",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "B6",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "B7",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "C1",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "C2",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "C3",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "C4",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "C5",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    },
+    {
+      "id": "Q1",
+      "images": true,
+      "overflow": [],
+      "internal": false
+    }
+  ],
+  "scheme2And3Regression": "passed"
 }
