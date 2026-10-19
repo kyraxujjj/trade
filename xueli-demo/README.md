@@ -1,18 +1,25 @@
-# 雪梨智学 · AI伴读流程核对版
+# 雪梨智学 · MVP学习报告与原页陪练
 
-**[在线查看](https://kyraxujjj.github.io/trade/xueli-demo/?v=flow-audit)**
+**[打开最新版](https://kyraxujjj.github.io/trade/xueli-demo/?v=mvp-report)**
 
-- [方案1：模块后独立带练，A1–A7](https://kyraxujjj.github.io/trade/xueli-demo/?v=flow-audit#scheme1-gallery)
-- [方案2：原页即时帮助，B1–B7](https://kyraxujjj.github.io/trade/xueli-demo/?v=flow-audit#scheme2-gallery)
-- [方案3：情境巩固，C1–C5](https://kyraxujjj.github.io/trade/xueli-demo/?v=flow-audit#scheme3-gallery)
-- [三方案共用课程问答，Q1](https://kyraxujjj.github.io/trade/xueli-demo/?v=flow-audit#shared-qa-gallery)
+- [查看今日学习报告](https://kyraxujjj.github.io/trade/xueli-demo/?v=mvp-report#A7)
+- [体验方案2原页连续陪练](https://kyraxujjj.github.io/trade/xueli-demo/?v=mvp-report#scheme2-gallery)
+- [查看方案3](https://kyraxujjj.github.io/trade/xueli-demo/?v=mvp-report#scheme3-gallery)
 
-保留原有视觉模板与六模块流程，仅按学习顺序展示AI相关触点。流程图的节点编号可直接打开对应Demo；每张标明时机、页面形态、下一站，并附六栏产品说明。
+## 本轮调整
 
-本轮核对和调整见 [FLOW_REVIEW.md](./FLOW_REVIEW.md)。
+报告直接总结今天学了什么、哪些词能自己读、具体薄弱点和下一步复习建议。writing 与本课重点句都有复习按钮；打开对应学习面板练习，返回报告可看到状态更新。重听不算掌握，示范后完成和独立完成分开处理。
 
-## 演示边界
+方案1仍是模块结束后的独立专项带练。方案2只有两个可连续操作的原学习页：原词卡B1含B2反馈，原跟读页B4含B5反馈；提示、最多两轮重复练习和即时反馈始终使用同一DOM、原图、进度和麦克风。模块完成后才进入小结。方案2画廊因此调整为5张，B2/B5编号仍可定位到对应原页。
 
-这是单文件产品原型；语音、AI回复与评测为本地演示，不采集录音、不上传后台。报告随本次操作保留通过、跳过、待验证或待巩固的差异，不预设所有AI任务已完成。原课程完成为报告入口前提；动画和拓展等普通课程不作为AI画廊页面。
+三套流程图补齐绿色正向箭头：方案1/3原模块达标直接小结；方案2当前题答对原页继续下一题，模块全部完成才小结。原六模块及后台Memory/后续Planner边界保留。
 
-如需离线保存，在 [index.html源码页](./index.html) 点击 Download raw file，再用浏览器打开。
+## 当前实现边界
+
+这是可离线使用的产品交互HTML，使用示例课程和示例整课学习记录，语音识别、AI回复与评分为预设结果。报告里的7/8基线来自这份示例记录，不是在线评测数据。正式上线需要接入实际学习记录、教研原音和评测接口。产品画面不显示开发说明；这些说明位于画廊外。
+
+原生界面与素材内嵌在 [index.html](./index.html)；可在源码页点击 Download raw file 离线保存。
+
+## 验证
+
+18张页面逐屏截图，无素材缺失、内容溢出或脚本错误。已验证方案2帮助前后卡片、词图和麦克风DOM身份不变，画廊计数和URL不变；首次答对绕过帮助、最多两轮原位重试；三份报告均能定位正确复习词句，重听不改掌握、试读后报告更新。流程图包含8条绿色正向箭头。

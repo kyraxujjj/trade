@@ -1,27 +1,15 @@
 {
   "errors": [],
-  "flowMapping": "passed",
-  "directPassAndSkip": "passed",
-  "failedRetry": "passed",
-  "originalPagePreservation": "passed",
-  "inPlaceBranches": "passed",
-  "summaryOrder": "passed",
-  "runtimeEvidence": "passed",
-  "screen_count": 20,
-  "node_counts": {
-    "A": 7,
-    "B": 7,
-    "C": 5,
-    "Q": 1
-  },
+  "sameDomPageAndMic": "passed",
+  "firstCorrectBypass": "passed",
+  "boundedInlineRetries": "passed",
+  "reviewDoesNotCountPlayback": "passed",
+  "targetedReviewAndReportRefresh": "passed",
+  "positiveArrows": "passed",
+  "samePageAliases": "passed",
+  "screens": 18,
   "all_six_fields": true,
-  "all_images": true,
   "overflows": [],
-  "terminal_branches": {
-    "errors": [],
-    "twoWrongThenSummary": "passed",
-    "skipPreservedInReport": "passed",
-    "noFalseSuccess": "passed",
-    "reset": "passed"
-  }
+  "internal_terms_in_product": [],
+  "positive_arrow_count": 8
 }
