@@ -2,6 +2,8 @@
 
 **[打开最新版](https://kyraxujjj.github.io/trade/xueli-demo/?v=mvp-report)**
 
+如果在线地址出现 `ERR_EMPTY_RESPONSE`，可直接[下载离线体验包](https://github.com/kyraxujjj/trade/raw/refs/heads/main/xueli-demo/xueli-mvp-offline.zip)。解压后双击 `index.html`，无需服务器。包内 HTML 与本次 MVP 修订版一致，图片、样式和脚本均已内嵌。
+
 - [查看今日学习报告](https://kyraxujjj.github.io/trade/xueli-demo/?v=mvp-report#A7)
 - [体验方案2原页连续陪练](https://kyraxujjj.github.io/trade/xueli-demo/?v=mvp-report#scheme2-gallery)
 - [查看方案3](https://kyraxujjj.github.io/trade/xueli-demo/?v=mvp-report#scheme3-gallery)
