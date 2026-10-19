@@ -1,120 +1,98 @@
 {
   "errors": [],
-  "wholeGroupBeforePractice": "passed",
-  "weakItemsOnly": "passed",
-  "queueStaysOnPracticePage": "passed",
-  "allCorrectBypassesPractice": "passed",
-  "skipAndBoundedFailure": "passed",
-  "perItemReportAndReview": "passed",
+  "capabilities11": "passed",
+  "audienceExclusions": "passed",
+  "threeDayThenLongFollowup": "passed",
+  "noAnswerOrAudioLeak": "passed",
+  "stableAndTransferStop": "passed",
+  "memoryToWeaknessHandoff": "passed",
+  "firstResultsPreserved": "passed",
+  "stage2to4LessonsOrTime": "passed",
+  "noFixedWeeklyTests": "passed",
+  "warmupBypassesUnnecessaryPractice": "passed",
+  "boundedLowGainPractice": "passed",
+  "conditionalIndependentRetest": "passed",
+  "resumeReload": "passed",
   "layout": [
     {
-      "id": "A1",
+      "id": "M1",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "A2",
+      "id": "M2",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "A3",
+      "id": "M3",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "A4",
+      "id": "M4",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "A5",
+      "id": "M5",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "A6",
+      "id": "S1",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "A7",
+      "id": "S2",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "B1",
+      "id": "S3",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "B3",
+      "id": "S4",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "B4",
+      "id": "S5",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     },
     {
-      "id": "B6",
+      "id": "S6",
+      "fields": 6,
       "images": true,
-      "overflow": [],
-      "internal": false
-    },
-    {
-      "id": "B7",
-      "images": true,
-      "overflow": [],
-      "internal": false
-    },
-    {
-      "id": "C1",
-      "images": true,
-      "overflow": [],
-      "internal": false
-    },
-    {
-      "id": "C2",
-      "images": true,
-      "overflow": [],
-      "internal": false
-    },
-    {
-      "id": "C3",
-      "images": true,
-      "overflow": [],
-      "internal": false
-    },
-    {
-      "id": "C4",
-      "images": true,
-      "overflow": [],
-      "internal": false
-    },
-    {
-      "id": "C5",
-      "images": true,
-      "overflow": [],
-      "internal": false
-    },
-    {
-      "id": "Q1",
-      "images": true,
-      "overflow": [],
-      "internal": false
+      "art": true,
+      "overflow": []
     }
   ],
-  "scheme2And3Regression": "passed"
+  "base_commit": "033d63be60b5bc531909505fdf246744d5b11b4d",
+  "previousThreeSchemesRegression": "passed",
+  "totalProductPages": 29
 }

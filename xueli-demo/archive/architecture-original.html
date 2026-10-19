@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>雪梨智学 · AI建设架构与一期可行性</title>
+<style>
+:root{
+  --bg:#fffaf0;--paper:#fff;--ink:#27384a;--muted:#6f8290;
+  --orange:#ff8a4c;--yellow:#ffd760;--green:#5ecb9d;--blue:#5bb8f3;
+  --purple:#9a87f5;--line:#eadfc8;--soft:#fff3cf;--shadow:0 14px 40px rgba(54,70,88,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#fffaf0,#f7fbff);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}
+.page{max-width:1440px;margin:0 auto;padding:34px 34px 70px}
+.hero{background:linear-gradient(135deg,#fff5cf,#fffdf8 48%,#eef9ff);border:1px solid #f0e4c7;border-radius:28px;padding:30px 34px;box-shadow:var(--shadow)}
+.kicker{font-size:13px;font-weight:900;color:#d88730;letter-spacing:.08em}
+h1{font-size:34px;margin:8px 0 12px;line-height:1.2}
+.hero p{margin:0;max-width:1050px;line-height:1.8;color:#536779;font-size:16px}
+.principles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.principle{background:rgba(255,255,255,.85);border:1px solid #eee4d2;border-radius:18px;padding:15px}
+.principle b{display:block;font-size:14px;margin-bottom:5px}.principle span{font-size:12px;line-height:1.55;color:#6b7b88}
+.star{color:#ff9b21;font-weight:1000}
+.section{margin-top:26px;background:#fff;border:1px solid #ebe5d8;border-radius:26px;padding:26px;box-shadow:var(--shadow)}
+.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}
+.section-title h2{margin:0;font-size:25px}.section-title p{margin:0;color:var(--muted);font-size:13px}
+.tree-wrap{overflow:auto;padding:6px 2px 10px}
+.tree{min-width:1120px;display:flex;flex-direction:column;align-items:center}
+.root{width:420px;text-align:center;background:linear-gradient(135deg,#27384a,#3e5d77);color:#fff;border-radius:22px;padding:19px 24px;box-shadow:0 12px 26px rgba(39,56,74,.22)}
+.root b{font-size:21px}.root small{display:block;margin-top:6px;opacity:.82}
+.trunk{width:2px;height:28px;background:#cfd8df}
+.branches{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:14px;width:100%}
+.branches:before{content:"";position:absolute;left:7.5%;right:7.5%;top:-1px;height:2px;background:#cfd8df}
+.node{position:relative;background:#fff;border:2px solid #dde7ec;border-radius:20px;padding:15px 14px;min-height:190px;transition:.18s;box-shadow:0 8px 18px rgba(55,78,95,.06)}
+.node:before{content:"";position:absolute;left:50%;top:-29px;width:2px;height:28px;background:#cfd8df}
+.node.mvp{border-color:#ffb247}.node{cursor:default}
+.node .phase{display:inline-block;font-size:10px;border-radius:999px;padding:4px 8px;background:#f2f5f7;color:#6a7b89;font-weight:900}
+.node.mvp .phase{background:#fff0c5;color:#c87913}.node.mvp{background:linear-gradient(180deg,#fffdf8,#fffaf0)}
+.node h3{font-size:16px;margin:10px 0 7px}.node p{font-size:12px;color:#6c7b87;line-height:1.55;margin:0}
+.node .map{margin-top:10px;padding-top:9px;border-top:1px dashed #e6dfd3;font-size:11px;color:#4f6475;line-height:1.55}
+.node .map b{color:#d67823}
+.detail{margin-top:16px;border-radius:18px;background:#f8fbfd;border:1px solid #e3edf2;padding:17px 19px}
+.detail b{font-size:15px}.detail p{margin:7px 0 0;line-height:1.7;color:#5f7383;font-size:13px}
+
+.chain{display:grid;grid-template-columns:repeat(19,minmax(110px,1fr));gap:8px;align-items:stretch;overflow:auto;padding-bottom:6px}
+.step{position:relative;min-width:110px;border-radius:16px;padding:13px 10px;background:#f7fafb;border:1px solid #e5ecef;text-align:center;font-size:12px;font-weight:800}
+.step small{display:block;margin-top:5px;color:#7d8b95;font-weight:600;line-height:1.4}
+.step.ai{background:#fff4d6;border-color:#ffd978}.step.future{background:#f2efff;border-color:#d7cffd}
+.arrow{display:grid;place-items:center;color:#a7b2ba;font-size:20px;min-width:18px}
+.loop-note{margin-top:14px;background:#fffaf0;border-left:4px solid var(--yellow);padding:13px 15px;border-radius:10px;font-size:13px;line-height:1.7;color:#5f6e77}
+
+.grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.card{border:1px solid #e8e6df;border-radius:20px;padding:18px;background:#fff}
+.card h3{margin:0 0 10px;font-size:18px}.card p{color:#657684;line-height:1.7;font-size:13px}
+.state-row{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+.state-btn{border:1px solid #e5d9bd;background:#fffaf0;border-radius:14px;padding:8px 10px;font-weight:800;font-size:12px;cursor:pointer}
+.state-btn.active{background:#ffd969;border-color:#f2b937}
+.phone{background:linear-gradient(180deg,#dff5ff,#fff5d7);border:8px solid #313b42;border-radius:30px;padding:16px;min-height:350px;position:relative;overflow:hidden}
+.lesson-box{height:205px;border-radius:22px;background:#fff;display:grid;place-items:center;border:1px solid #e8eff2;color:#6f8391;font-weight:900}
+.pear{position:absolute;right:18px;bottom:20px;width:82px;height:82px;border-radius:50%;background:linear-gradient(145deg,#ffe86f,#ffb44c);display:grid;place-items:center;font-size:40px;box-shadow:0 10px 22px rgba(147,100,39,.18);cursor:pointer}
+.badge{position:absolute;right:72px;bottom:82px;max-width:250px;background:#fff;border:1px solid #eadfca;border-radius:16px 16px 4px 16px;padding:10px 12px;font-size:12px;line-height:1.5;box-shadow:0 8px 18px rgba(50,70,85,.12)}
+.chat{position:absolute;right:17px;bottom:110px;width:300px;background:#fff;border-radius:18px;padding:13px;border:1px solid #eadfca;box-shadow:0 14px 26px rgba(50,70,85,.15);display:none}
+.chat.on{display:block}.chat b{font-size:13px}.msg{margin-top:8px;background:#fff4d8;border-radius:13px;padding:9px;font-size:12px;line-height:1.5}.chips{display:flex;gap:6px;margin-top:8px}.chip{background:#f5f7f8;border-radius:999px;padding:6px 8px;font-size:10px}
+
+.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:12px}
+.map-table th{text-align:left;color:#71818d;padding:0 10px 7px}
+.map-table td{padding:12px 10px;background:#f8fafb;border-top:1px solid #edf0f2;border-bottom:1px solid #edf0f2}
+.map-table td:first-child{border-left:1px solid #edf0f2;border-radius:12px 0 0 12px;font-weight:900}
+.map-table td:last-child{border-right:1px solid #edf0f2;border-radius:0 12px 12px 0}
+.mvp-tag{display:inline-block;background:#fff0be;color:#be7318;border-radius:999px;padding:3px 7px;font-weight:900}
+
+.risks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.risk{border-radius:17px;background:#fafbfc;border:1px solid #e8ecef;padding:15px}
+.risk b{font-size:14px}.risk p{font-size:12px;line-height:1.55;color:#6d7d88;margin:7px 0 0}
+.risk strong{color:#c56e21}
+
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.week{border:1px solid #e7e3da;border-radius:18px;padding:16px;background:#fff}
+.week .num{font-size:11px;color:#c97924;font-weight:900}.week h3{margin:6px 0 9px;font-size:16px}.week p{font-size:12px;line-height:1.6;color:#687a87;margin:0}
+.scope{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.scope .yes{background:#f0fbf6;border-color:#cdeedd}.scope .no{background:#faf8ff;border-color:#e1dafa}
+.scope ul{margin:9px 0 0;padding-left:18px;color:#60717d;font-size:12px;line-height:1.8}
+
+.footer{margin-top:22px;text-align:center;color:#81909a;font-size:12px}
+@media(max-width:980px){
+ .principles,.grid2,.risks,.timeline,.scope{grid-template-columns:1fr}
+ .page{padding:18px}.section{padding:18px}
+}
+
+.delivery-hero{
+  background:#173a5a!important;color:#fff;border:none!important;
+  box-shadow:0 18px 45px rgba(23,58,90,.18)!important;
+  padding:26px 34px!important;
+}
+.delivery-title{font-size:20px;font-weight:1000;margin-bottom:10px}
+.delivery-copy{font-size:18px;line-height:1.9;color:#f7fbff}
+.delivery-copy strong{color:#ffe28a}
+.delivery-hero .star{color:#ffd664}
+.arch-pre-note{
+  margin:-2px 0 18px;padding:13px 15px;border-radius:14px;
+  background:#f6fbff;border:1px solid #dbeaf3;color:#587083;
+  font-size:13px;line-height:1.7
+}
+.analytics-note{
+  margin-top:9px;padding:9px 10px;border-radius:11px;background:#f7f5ff;
+  border:1px solid #e2dcff;color:#6e6598;font-size:11px;line-height:1.55
+}
+
+
+.flow-legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:2px 0 18px;font-size:12px;color:#6b7c88}
+.legend-item{display:flex;align-items:center;gap:7px}
+.legend-box{width:24px;height:16px;border-radius:6px;border:1.5px solid #dfe7ec;background:#fff}
+.legend-box.ai-new{background:#fff2c9;border-color:#ffc64d}
+.legend-diamond{width:15px;height:15px;transform:rotate(45deg);border:1.5px solid #aac1d2;background:#eef7fc;border-radius:3px}
+.legend-chip{padding:3px 8px;border-radius:999px;background:#fff0b8;border:1px solid #ffd45c;color:#a76b0c;font-size:10px;font-weight:900}
+
+.flowmap{display:flex;flex-direction:column;gap:16px}
+.flow-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.flow-page{position:relative;min-width:150px;min-height:88px;padding:15px 14px;border-radius:18px;background:#fff;border:1.5px solid #dfe7ec;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.flow-page b{font-size:14px}.flow-page small{font-size:11px;color:#7b8b96;margin-top:6px;line-height:1.45}
+.flow-page.ai-new{background:#fff2c9;border-color:#ffc64d}
+.flow-page .new-tag{position:absolute;right:9px;top:8px;padding:3px 7px;border-radius:999px;background:#ffca4f;color:#7d5500;font-size:9px;font-weight:1000}
+.flow-arrow{font-size:22px;color:#a8b5bd;font-weight:700}
+.logic-wrap{display:flex;align-items:center;gap:8px}
+.logic-node{width:118px;min-height:78px;display:grid;place-items:center;text-align:center;padding:10px;position:relative;color:#496a82;font-size:11px;font-weight:800}
+.logic-node:before{content:"";position:absolute;width:62px;height:62px;background:#eef7fc;border:1.5px solid #aac1d2;border-radius:10px;transform:rotate(45deg);z-index:0}
+.logic-node span{position:relative;z-index:1;line-height:1.35}
+.branch-box{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:10px 12px;border:1px dashed #d9e3e9;border-radius:16px;background:#fbfdfe}
+.branch-label{font-size:10px;color:#7a8b96;font-weight:900}
+.embed-page{background:#fff;border:1.5px solid #dfe7ec}
+.embed-ai{margin-top:8px;padding:5px 9px;border-radius:10px;background:#fff0b8;border:1px solid #ffd45c;color:#98620d;font-size:10px;font-weight:900}
+.backend-strip{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:3px}
+.backend-box{border-radius:15px;padding:12px 14px;background:#f4f8fb;border:1px solid #dce8ef;font-size:12px;color:#5d7281;line-height:1.55}
+.backend-box b{color:#31536d}
+@media(max-width:900px){.backend-strip{grid-template-columns:1fr}.flow-page{min-width:138px}}
+
+
+/* 新增：方案2 / 方案3。全部为原生HTML流程图，可缩放/可复制文本 */
+.scheme-caption{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:13px 0 15px}
+.scheme-number{display:inline-flex;align-items:center;gap:5px;background:#173a5a;color:#fff;border-radius:999px;padding:6px 13px;font-weight:900;font-size:13px}
+.scheme-caption strong{font-size:17px}
+.scheme-caption .mini-desc{font-size:12px;color:#7b8b97}
+.scheme-comparison-note{border:1px solid #dce7ee;background:#f7fbff;color:#537184;border-radius:14px;padding:11px 14px;line-height:1.6;font-size:12px;margin-bottom:13px}
+.scheme-separator{border:0;border-top:1px dashed #d8e5ec;margin:24px 0 19px}
+.alt-diagram{display:flex;flex-direction:column;gap:17px}
+.alt-row{display:flex;flex-wrap:nowrap;align-items:center;gap:9px;overflow-x:auto;padding:7px 2px 11px;scrollbar-color:#d6e5ed transparent}
+.alt-node{flex:1 0 0;min-width:136px;min-height:108px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:6px;position:relative;background:#fff;border:1.5px solid #dce6ec;border-radius:17px;padding:13px 9px}
+.alt-node b{font-size:14px;line-height:1.25;color:#2c465c}
+.alt-node small{color:#748797;font-size:11px;line-height:1.45;font-weight:500}
+.alt-node.embed-card{border-color:#dce6ec;background:#fff}
+.alt-node.new-card{background:#fff1c7;border-color:#ffc04b}
+.alt-node.softer{background:#f8fbfd}
+.alt-node .mark{position:absolute;top:6px;right:6px;display:block;background:#ffe7a4;color:#986108;border:1px solid #ffc746;padding:2px 6px;border-radius:99px;font-size:9px;line-height:1.3;font-weight:900}
+.alt-node .mark.new{background:#ffca52;color:#855405}
+.alt-node .node-note{font-size:10px;color:#6f8190;line-height:1.35}
+.alt-arrow{flex:0 0 19px;font-size:22px;color:#a4b3be;text-align:center;font-weight:900}
+.alt-diamond{flex:0 0 122px;min-width:122px;display:flex;justify-content:center;align-items:center;min-height:112px;position:relative}
+.alt-diamond:before{content:"";width:76px;height:76px;border:1.8px solid #a7c3d5;background:#edf7fc;transform:rotate(45deg);border-radius:11px;position:absolute}
+.alt-diamond span{font-weight:900;font-size:11px;line-height:1.3;text-align:center;color:#486c86;position:relative;z-index:1}
+.alt-choice{padding:7px;border:1px dashed #d0dfeb;background:#fbfdff;border-radius:17px;display:flex;gap:9px;align-items:center;flex:2 0 0;min-width:300px}
+.alt-choice .alt-node{min-width:137px}
+.alt-choice .alt-diamond{flex-basis:94px;min-width:94px}
+.alt-condition{flex:0 0 40px;font-size:10px;color:#788e9f;font-weight:800;line-height:1.3}
+.alt-foot{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;padding-top:3px}
+.alt-foot .flow-page{min-width:178px;min-height:102px}
+.alt-foot .backend-box{flex:1;min-width:230px;max-width:none}
+.alt-foot .flow-arrow{align-self:center}
+.alt-note{margin:12px 0 0;padding:14px 16px;background:#fff9ed;border-left:4px solid #ffd15f;border-radius:12px;color:#5d7080;font-size:12px;line-height:1.8}
+.alt-note b{color:#425d72}
+.alt-note .data-row{margin-top:5px;color:#466f83}
+.comparison-matrix{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:18px}
+.comparison-matrix>div{padding:14px;border:1px solid #e2e8ed;border-radius:16px;background:#fafcfe}
+.comparison-matrix b{font-size:13px;color:#294a65}
+.comparison-matrix p{font-size:11px;line-height:1.65;color:#607a8a;margin:7px 0 0}
+.flow-continuation{font-size:11px;color:#68879c;font-weight:700;margin:-8px 0 -4px 4px}
+@media(max-width:1100px){.alt-row{gap:7px}.alt-node{flex:0 0 152px}.alt-diamond{flex:0 0 110px;min-width:110px}.comparison-matrix{grid-template-columns:1fr}}
+@media print{.alt-row{overflow:visible;flex-wrap:wrap}.alt-node{flex:1 0 130px}.scheme-separator{break-before:auto}.section{break-inside:avoid}}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+
+<section class="hero delivery-hero">
+  <div class="delivery-title"><span class="star">一期最终交付定义：</span></div>
+  <div class="delivery-copy">
+    孩子完成固定六模块学习后，系统能知道“哪里会 / 哪里不会”；
+    在<strong>单词拼读</strong>和<strong>词句跟读</strong>两个节点，根据结果判断是否自动发起受控 AI 二次带练；
+    每个关键模块结束后形成<strong>模块小结</strong>；右下角小梨能读取当前学习上下文进行问答，并与带练、模块小结、最终总结联动；
+    六模块结束后形成一致的 AI 综合总结，并将掌握状态、薄弱点、AI 干预结果写入长期 Learning Memory。
+    <br><br>
+    一期课程规划仍固定，但已经为后续 Planner Agent 接管“下一步怎么学”准备好数据基础。
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-title">
+    <div><h2>1. 最终 AI 架构树 <span class="star">★ = 一期</span></h2><p>先回答“AI系统由什么组成、每部分最终承担老师什么工作、一期做到哪一步”。</p></div>
+  </div>
+  <div class="arch-pre-note"><b>读图方式：</b> Learner Model 负责“看懂孩子”；Tutor Agent 负责“具体辅导”；Learning Memory 负责“长期记住”；智能教研资源层负责“给 AI 提供正确教材”；Planner Agent 后续负责“决定下一步学什么”；最右侧的效果优化层只做后台分析，不直接面向孩子。</div>
+  <div class="tree-wrap">
+    <div class="tree">
+      <div class="root"><b>AI虚拟老师 / Learning Agent</b><small>根据孩子当前状态决定“现在应该做什么”</small></div>
+      <div class="trunk"></div>
+      <div class="branches">
+        <div class="node mvp" data-key="learner">
+          <span class="phase">★ 一期</span><h3>Learner Model</h3>
+          <p>看懂孩子当前学得怎么样，形成知识点掌握状态。</p>
+          <div class="map"><b>对应 App：</b><br>单词拼读结果判断<br>词句跟读结果判断<br>模块小结 / 六模块总结</div>
+        </div>
+        <div class="node mvp" data-key="tutor">
+          <span class="phase">★ 一期</span><h3>Tutor Agent</h3>
+          <p>发现问题后，具体负责问答、点评和二次带练。</p>
+          <div class="map"><b>对应 App：</b><br>右下角小梨问答<br>拼读 / 跟读二次带练<br>模块小结解释</div>
+        </div>
+        <div class="node mvp" data-key="memory">
+          <span class="phase">★ 一期</span><h3>Learning Memory</h3>
+          <p>保存薄弱点、AI干预结果和长期学习进度。</p>
+          <div class="map"><b>对应 App：</b><br>六模块总结写回<br>孩子学习画像<br>下次学习继续读取</div>
+        </div>
+        <div class="node mvp" data-key="resource">
+          <span class="phase">★ 一期底座</span><h3>智能教研资源层</h3>
+          <p>把绘本、词句、标准音和补练素材变成 AI 可调用资源。</p>
+          <div class="map"><b>对应 App：</b><br>问答有课程依据<br>错词匹配补练素材<br>总结引用真实学习内容</div>
+        </div>
+        <div class="node" data-key="planner">
+          <span class="phase">二期</span><h3>Planner Agent</h3>
+          <p>根据长期掌握状态，规划下一步学什么、怎么学。</p>
+          <div class="map"><b>对应 App：</b><br>自适应分级<br>下一绘本推荐<br>复习/推进/升降级</div>
+        </div>
+        <div class="node" data-key="analytics">
+          <span class="phase">二期+</span><h3>教学效果优化</h3>
+          <p>后台比较“什么带练方式真的有用”，把有效策略反馈给 Tutor 和 Planner。</p>
+          <div class="map"><b>对应 App：</b><br>不直接新增前台页面<br>优化带练方式<br>优化后续课程策略</div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="section-title">
+    <div>
+      <h2>2. AI 架构如何落到现有学习链路</h2>
+      <p>白色 = Demo 原定流程；黄色 = AI 新增页面 / 新增交互流程。后台判断逻辑不当成“页面”。</p>
+    </div>
+  </div>
+
+  <div class="flow-legend">
+    <span class="legend-item"><i class="legend-box"></i> Demo 原定页面 / 原定流程</span>
+    <span class="legend-item"><i class="legend-box ai-new"></i> AI 新增页面</span>
+    <span class="legend-item"><i class="legend-diamond"></i> AI 后台判断，不是页面</span>
+    <span class="legend-item"><i class="legend-chip">AI嵌入</i> 原页面内增加 AI 内容，不新增页面</span>
+  </div>
+
+  <div class="scheme-comparison-note"><b>三个方案的共同底座：</b>固定六模块（绘本预热 → 绘本精讲 → 单词拼读 → 词句跟读 → 趣味动画 → 拓展阅读）；Learner Model 判断掌握情况，Tutor Agent 提供学习帮助，模块小结与六模块学习报告沉淀 Learning Memory。<b>不同的是黄色AI环节如何进入学习过程。</b>下方三套方案用于比较，不代表一期同时开发三套。</div>
+  <div class="scheme-caption"><span class="scheme-number">方案 1</span><strong>集中式 AI 定向带练</strong><span class="mini-desc">有明确错误 → 集中补练 → 再评估</span></div>
+  <div class="flowmap">
+
+    <!-- 原流程前两步 -->
+    <div class="flow-row">
+      <div class="flow-page"><b>绘本预热</b><small>Demo 原定流程</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-page"><b>绘本精讲</b><small>Demo 原定流程</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-page"><b>单词拼读</b><small>Demo 原定流程<br>产生拼读结果</small></div>
+      <div class="flow-arrow">→</div>
+
+      <div class="logic-wrap">
+        <div class="logic-node"><span>Learner Model<br>结果判断</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+
+      <div class="branch-box">
+        <span class="branch-label">未达标时</span>
+        <div class="flow-page ai-new">
+          <span class="new-tag">新增流程</span>
+          <b>AI 二次带练</b>
+          <small>Tutor Agent<br>只练错误点</small>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="logic-node"><span>再评估</span></div>
+      </div>
+
+      <div class="flow-arrow">→</div>
+      <div class="flow-page ai-new">
+        <span class="new-tag">新增流程</span>
+        <b>拼读模块小结</b>
+        <small>无论是否二次带练<br>都进入小结</small>
+      </div>
+    </div>
+
+    <!-- 明确展示词句跟读，不再让它被挤出可视区 -->
+    <div class="flow-row">
+      <div class="flow-page"><b>词句跟读</b><small>Demo 原定流程<br>产生跟读结果</small></div>
+      <div class="flow-arrow">→</div>
+
+      <div class="logic-wrap">
+        <div class="logic-node"><span>Learner Model<br>结果判断</span></div>
+      </div>
+      <div class="flow-arrow">→</div>
+
+      <div class="branch-box">
+        <span class="branch-label">未达标时</span>
+        <div class="flow-page ai-new">
+          <span class="new-tag">新增流程</span>
+          <b>AI 二次带练</b>
+          <small>Tutor Agent<br>只练错误句 / 错误点</small>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="logic-node"><span>再评估</span></div>
+      </div>
+
+      <div class="flow-arrow">→</div>
+      <div class="flow-page ai-new">
+        <span class="new-tag">新增流程</span>
+        <b>跟读模块小结</b>
+        <small>无论是否二次带练<br>都进入小结</small>
+      </div>
+      <div class="flow-arrow">→</div>
+
+      <div class="flow-page"><b>趣味动画</b><small>Demo 原定流程</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-page"><b>拓展阅读</b><small>Demo 原定流程</small></div>
+    </div>
+
+    <!-- 结课：沿用现有学习报告页面，在页内增加AI总结，不误画成新增页面 -->
+    <div class="flow-row">
+      <div class="flow-page embed-page">
+        <b>学习报告</b>
+        <small>Demo 原有结果页</small>
+        <div class="embed-ai">AI嵌入：六模块综合总结</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="backend-box" style="max-width:360px">
+        <b>Learning Memory 写回（后台）</b><br>
+        记录掌握状态、薄弱点、模块小结、AI 带练前后结果与当前进度；不单独新增儿童端页面。
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="backend-box" style="max-width:320px;background:#f7f4ff;border-color:#ded6fb">
+        <b>二期 Planner Agent</b><br>
+        基于长期 Learner Model + Memory，决定下一节课复习 / 正常推进 / 提升难度。
+      </div>
+    </div>
+
+  </div>
+
+  <div class="loop-note">
+    <b>一期链路：</b>
+    单词拼读 → 结果判断 →（未达标才进入 AI 二次带练 → 再评估）→ <b>拼读模块小结</b>；
+    词句跟读 → 结果判断 →（未达标才进入 AI 二次带练 → 再评估）→ <b>跟读模块小结</b>。
+    之后继续原定趣味动画、拓展阅读；六模块结束后沿用现有学习报告页，在页内增加 <b>AI 综合总结</b>，同时将结果写入 Learning Memory。
+  </div>
+
+  <hr class="scheme-separator"/>
+  <div class="scheme-caption"><span class="scheme-number">方案 2</span><strong>融入式 AI 实时教学</strong><span class="mini-desc">错误当下即时辅助；不新增带练页，帮助发生在原课程页面内</span></div>
+  <div class="alt-diagram" aria-label="方案2 AI融入式实时教学流程图">
+    <div class="alt-row">
+      <div class="alt-node"><b>绘本预热</b><small>原定课程</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node"><b>绘本精讲</b><small>原定课程</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node"><b>单词拼读</b><small>原定课程<br>产生拼读结果</small></div><span class="alt-arrow">→</span>
+      <div class="alt-diamond"><span>Learner Model<br>结果判断</span></div><span class="alt-arrow">→</span>
+      <div class="alt-node embed-card"><span class="mark">AI嵌入</span><b>原页面即时提示</b><small>未达标时：慢速标准音、<br>拆音 / 看图提示</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node embed-card"><span class="mark">AI嵌入</span><b>原页面再次尝试</b><small>不离开当前拼读页<br>独立重读 1 次</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node embed-card"><span class="mark">AI嵌入</span><b>拼读模块小结</b><small>原完成页加入 AI 点评<br>正确直接小结</small></div>
+    </div>
+    <div class="flow-continuation">↓ 完成拼读小结后，继续原定词句跟读</div>
+    <div class="alt-row">
+      <div class="alt-node"><b>词句跟读</b><small>原定课程<br>产生跟读结果</small></div><span class="alt-arrow">→</span>
+      <div class="alt-diamond"><span>Learner Model<br>结果判断</span></div><span class="alt-arrow">→</span>
+      <div class="alt-node embed-card"><span class="mark">AI嵌入</span><b>原页面即时提示</b><small>未达标时：重点纠音、<br>慢速原句 / 范读对比</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node embed-card"><span class="mark">AI嵌入</span><b>原页面再次尝试</b><small>仍在当前跟读页<br>再次跟读 1 次</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node embed-card"><span class="mark">AI嵌入</span><b>跟读模块小结</b><small>原完成页加入 AI 点评<br>正确直接小结</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node"><b>趣味动画</b><small>原定课程</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node"><b>拓展阅读</b><small>原定课程</small></div>
+    </div>
+    <div class="flow-continuation">↓ 六个模块全部完成</div>
+    <div class="alt-foot">
+      <div class="flow-page embed-page"><b>学习报告</b><small>原有结果页</small><div class="embed-ai">AI嵌入：六模块综合总结</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="backend-box"><b>Learning Memory 写回（后台）</b><br>记录知识点、首次评测、提示方式、再次尝试、是否达标、模块结论。未达标不无限重试。</div>
+      <div class="flow-arrow">→</div>
+      <div class="backend-box" style="background:#f7f4ff;border-color:#ded6fb"><b>二期 Planner Agent</b><br>长期观察提示后的独立掌握情况，再决定复习 / 推进 / 调整难度。</div>
+    </div>
+  </div>
+  <div class="alt-note"><b>核心用户需求：</b>5–6 岁儿童可能只是一个音卡住，注意力不适合被突然跳转到新页面。AI在原词卡 / 原跟读页里提供一次有针对性的帮助；当堂已达标则不触发提示，直接进入该模块小结。<br>
+    <span class="data-row"><b>可记录 / 上传的学习数据：</b>拼读或跟读首次结果、错音/错词、使用了哪种提示、提示后结果、该模块掌握状态；报告中可视化展示“独立掌握 / 获得提示后掌握 / 待巩固”。</span>
+  </div>
+
+  <hr class="scheme-separator"/>
+  <div class="scheme-caption"><span class="scheme-number">方案 3</span><strong>绘本情境闯关式 AI 巩固</strong><span class="mini-desc">用本绘本图片与词句做短互动，不要求5–6岁孩子自由编故事</span></div>
+  <div class="alt-diagram" aria-label="方案3绘本情境闯关式AI巩固流程图">
+    <div class="alt-row">
+      <div class="alt-node"><b>绘本预热</b><small>原定课程</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node"><b>绘本精讲</b><small>原定课程</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node"><b>单词拼读</b><small>原定课程<br>产生拼读结果</small></div><span class="alt-arrow">→</span>
+      <div class="alt-diamond"><span>Learner Model<br>结果判断</span></div><span class="alt-arrow">→</span>
+      <div class="alt-node new-card"><span class="mark new">新增流程</span><b>AI绘本情境小关</b><small>仅需巩固时进入<br>听音找图 / 图词匹配<br>原绘本素材</small></div><span class="alt-arrow">→</span>
+      <div class="alt-diamond"><span>掌握验证</span></div><span class="alt-arrow">→</span>
+      <div class="alt-node new-card"><span class="mark new">新增流程</span><b>拼读模块小结</b><small>有无小关均进入<br>反馈本次知识掌握</small></div>
+    </div>
+    <div class="flow-continuation">↓ 完成拼读小结后，继续原定词句跟读</div>
+    <div class="alt-row">
+      <div class="alt-node"><b>词句跟读</b><small>原定课程<br>产生跟读结果</small></div><span class="alt-arrow">→</span>
+      <div class="alt-diamond"><span>Learner Model<br>结果判断</span></div><span class="alt-arrow">→</span>
+      <div class="alt-node new-card"><span class="mark new">新增流程</span><b>AI绘本情境小关</b><small>仅需巩固时进入<br>听句选图 / 角色匹配<br>可选短句跟读</small></div><span class="alt-arrow">→</span>
+      <div class="alt-diamond"><span>掌握验证</span></div><span class="alt-arrow">→</span>
+      <div class="alt-node new-card"><span class="mark new">新增流程</span><b>跟读模块小结</b><small>有无小关均进入<br>反馈情境应用表现</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node"><b>趣味动画</b><small>原定课程</small></div><span class="alt-arrow">→</span>
+      <div class="alt-node"><b>拓展阅读</b><small>原定课程</small></div>
+    </div>
+    <div class="flow-continuation">↓ 六个模块全部完成</div>
+    <div class="alt-foot">
+      <div class="flow-page embed-page"><b>学习报告</b><small>原有结果页</small><div class="embed-ai">AI嵌入：六模块综合总结</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="backend-box"><b>Learning Memory 写回（后台）</b><br>记录原题是否掌握、情境小关题型、图片 / 语音选择结果、是否需要提示与当前掌握状态。</div>
+      <div class="flow-arrow">→</div>
+      <div class="backend-box" style="background:#f7f4ff;border-color:#ded6fb"><b>二期 Planner Agent</b><br>根据原题和情境任务的差异，判断应该巩固、继续新绘本还是尝试更高难度。</div>
+    </div>
+  </div>
+  <div class="alt-note"><b>核心用户需求：</b>有些孩子不喜欢“刚才错了再做一次”，但愿意在原绘本角色和图片里参与短挑战。小关限定当前绘本的已审核素材，用“听音找图 / 图词匹配 / 听句选图 / 跟读一句”等低阅读负担动作，约20–60秒；不要求孩子独立创作英文故事，也不篡改既定绘本文本。<br>
+    <span class="data-row"><b>可记录 / 上传的学习数据：</b>初始拼读/跟读结果、情境关目标知识点、题型、正确率、提示次数、完成时长与原题/迁移表现差异；学习报告展示“基础掌握 / 情境应用 / 待巩固”。</span>
+  </div>
+
+  <div class="comparison-matrix" aria-label="三种AI干预方案对比">
+    <div><b>方案1｜集中式二次带练</b><p>适合已经明确出现错误、愿意集中补练的孩子。单独插入黄色AI带练节点；数据重点是带练前后提升。</p></div>
+    <div><b>方案2｜原页实时教学</b><p>适合注意力易被打断、仅在单词或句子上短暂卡住的孩子。AI嵌入白色原页；数据重点是提示方式是否有效。</p></div>
+    <div><b>方案3｜绘本情境闯关</b><p>适合需要兴趣和情境应用来巩固知识的孩子。新增黄色情境小关；数据重点是基础知识能否在绘本情境中应用。</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-title"><div><h2>3. 每个 AI 部分对应哪个产品功能</h2><p>三种方案共用的AI底座与App功能点映射；页面形态可按选定方案调整。</p></div></div>
+  <table class="map-table">
+    <thead><tr><th>AI部分</th><th>一期/后续</th><th>它负责什么</th><th>对应 App 功能点</th><th>和谁联动</th></tr></thead>
+    <tbody>
+      <tr><td>Learner Model</td><td><span class="mvp-tag">★ 一期</span></td><td>判断掌握程度、是否需要干预，并输出模块级学习状态</td><td>拼读/跟读后的后台结果判断；为模块小结与最终总结提供状态</td><td>Tutor / Memory</td></tr>
+      <tr><td>Tutor Agent</td><td><span class="mvp-tag">★ 一期</span></td><td>问答、点评、二次带练，并把结果转成儿童可理解的话术</td><td><b>新增：</b>拼读二次带练、跟读二次带练、两个模块小结；<b>常驻：</b>右下小梨问答</td><td>Learner Model / 教研资源</td></tr>
+      <tr><td>Learning Memory</td><td><span class="mvp-tag">★ 一期</span></td><td>记住每个模块的掌握状态、薄弱点、AI干预效果</td><td>后台写回，不新增儿童端页面；下次学习继续读取</td><td>Learner Model / Planner</td></tr>
+      <tr><td>智能教研资源层</td><td><span class="mvp-tag">★ 一期底座</span></td><td>提供标准且可追溯的教学材料</td><td>问答依据、补练内容、标准音、知识点解释</td><td>Tutor / Planner</td></tr>
+      <tr><td>Planner Agent</td><td>二期</td><td>决定下一阶段学什么</td><td>复习、推进、升降级、课程推荐</td><td>Memory / Learner Model</td></tr>
+      <tr><td>教学效果优化</td><td>二期+</td><td>比较 AI 干预前后效果，筛选更有效的带练/教学策略</td><td>后台能力，不新增儿童前台入口</td><td>Tutor / Planner / 全链路数据</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section">
+  <div class="section-title"><div><h2>4. 右下角“小梨”怎么从被动按钮变成 AI 联动入口</h2><p>不是单独做“聊天”，而是作为 Tutor Agent 的统一前台入口。</p></div></div>
+  <div class="grid2">
+    <div class="card">
+      <h3>推荐机制：同一个小梨，随学习状态变化</h3>
+      <p>默认状态下，它是“随时问我”；出现错误时，它自动变成“有一个地方需要再练”；六模块完成后，它变成“我帮你总结好了”。用户不需要理解背后有几个 Agent。</p>
+      <div class="state-row">
+        <button class="state-btn active" data-state="normal">正常学习</button>
+        <button class="state-btn" data-state="word">拼读出错</button>
+        <button class="state-btn" data-state="sentence">跟读出错</button>
+        <button class="state-btn" data-state="done">六模块完成</button>
+      </div>
+      <p><b>关键设计：</b>系统该主动时主动，用户想主动问时也能问。这样 AI 使用率不再完全依赖孩子“想不想点按钮”。</p>
+      <p><b>对话功能完全可以和其他 AI 能力联动：</b>小梨打开后先读取当前学习上下文。如果系统刚检测到错误，则直接进入带练；如果没有任务，则进入自由问答；如果六模块已结束，则优先解释本次学习总结。</p>
+    </div>
+    <div class="phone" id="phone">
+      <div class="lesson-box" id="lessonBox">当前课程内容区<br><small style="font-weight:600">保持现有 Demo 视觉骨架</small></div>
+      <div class="badge" id="pearBadge">有不懂的地方，可以随时问我～</div>
+      <div class="chat" id="chatBox">
+        <b>梨宝AI伴学</b>
+        <div class="msg" id="chatMsg">我知道你现在正在学习这节课，有哪里想问我吗？</div>
+        <div class="chips" id="chips"><span class="chip">解释这个词</span><span class="chip">再听一次</span></div>
+      </div>
+      <div class="pear" id="pear">🍐</div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="section-title"><div><h2>5. 一期边界：做什么 / 不做什么</h2><p>边界越明确，一个月越可控。</p></div></div>
+  <div class="scope">
+    <div class="card yes"><h3><span class="star">★</span> 一期必须完成</h3><ul>
+      <li>单词拼读结果 → 判断是否触发二次练习</li><li>词句跟读结果 → 判断是否触发二次练习</li><li>拼读模块小结 + 跟读模块小结（无论是否触发二次练习都要输出）</li>
+      <li>错误自动触发小梨提醒</li>
+      <li>针对错误的二次带练</li>
+      <li>课程上下文内 AI 问答</li>
+      <li>六模块完成后的 AI 综合总结</li>
+      <li>Learning Memory 写回</li>
+      <li>教研资源最小可调用能力</li>
+      <li>全链路数据记录，为后续 Planner 做准备</li>
+    </ul></div>
+    <div class="card no"><h3>一期暂不做</h3><ul>
+      <li>AI 自由重排六模块顺序</li>
+      <li>完全自动决定下一本绘本</li>
+      <li>复杂长期性格画像</li>
+      <li>无限轮开放式儿童聊天</li>
+      <li>自动生成大量新课程内容</li>
+      <li>复杂多 Agent 自主协作编排</li>
+    </ul></div>
+  </div>
+</section>
+
+<div class="footer">雪梨智学 AI MVP · 目标：先跑通“结果判断 → 二次带练 → 模块小结 → 六模块总结 → 记忆”，再升级到“规划下一步课程”。</div>
+</div>
+
+<script>
+const states={
+ normal:{badge:"有不懂的地方，可以随时问我～",msg:"我知道你现在正在学习这节课，有哪里想问我吗？",chips:["解释这个词","再听一次"]},
+ word:{badge:"刚才有 1 个单词需要再练一下～",msg:"刚才 strong 还有一点不清楚，我们只练这个词，不用重做整节。",chips:["开始带练","先听标准音"]},
+ sentence:{badge:"有 1 句话再练一次就更棒啦～",msg:"刚才这句话的完整度还不够，我们再读一遍，我会根据第二次结果判断是否通过。",chips:["再读一次","听原句"]},
+ done:{badge:"今天的学习我已经帮你总结好啦～",msg:"今天 6 个任务都完成了。我会告诉你哪些已经掌握、哪些下次还要继续练，并把结果记住。",chips:["查看总结","我哪里进步了"]}
+};
+document.querySelectorAll(".state-btn").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".state-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");
+ const s=states[b.dataset.state];document.getElementById("pearBadge").textContent=s.badge;document.getElementById("chatMsg").textContent=s.msg;
+ document.getElementById("chips").innerHTML=s.chips.map(x=>'<span class="chip">'+x+'</span>').join("");
+ document.getElementById("chatBox").classList.remove("on");
+});
+document.getElementById("pear").onclick=()=>document.getElementById("chatBox").classList.toggle("on");
+</script>
+</body>
+</html>
