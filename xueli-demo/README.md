@@ -1,6 +1,14 @@
 # 雪梨智学 · AI伴读功能架构与方案1演示
 
-入口文件：[index.html](./index.html)。在 GitHub 文件页点击 **Download raw file（下载原始文件）**，保存后用浏览器打开。
+## 在线查看（推荐）
+
+**[点击打开完整网页 →](https://kyraxujjj.github.io/trade/xueli-demo/)**
+
+直接在浏览器中查看架构、横滑 Demo 和产品说明，无需下载。GitHub 中的 `index.html` 文件链接会显示源代码；在线网页请使用上方 GitHub Pages 地址。
+
+## 离线保存
+
+源码文件：[index.html](./index.html)。如需离线使用，在源码页点击 **Download raw file（下载原始文件）**，保存后用浏览器打开。
 
 这是单文件离线原型，已内嵌雪梨老师素材。方案1含8个原生横屏页面或状态，支持横向滚动、前后切换，每页附六栏产品说明。三套完整流程图和原架构章节均保留。
 
