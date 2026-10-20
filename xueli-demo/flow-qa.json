@@ -1,98 +1,63 @@
 {
   "errors": [],
-  "capabilities11": "passed",
-  "audienceExclusions": "passed",
-  "threeDayThenLongFollowup": "passed",
-  "noAnswerOrAudioLeak": "passed",
-  "stableAndTransferStop": "passed",
-  "memoryToWeaknessHandoff": "passed",
-  "firstResultsPreserved": "passed",
-  "stage2to4LessonsOrTime": "passed",
-  "noFixedWeeklyTests": "passed",
-  "warmupBypassesUnnecessaryPractice": "passed",
-  "boundedLowGainPractice": "passed",
-  "conditionalIndependentRetest": "passed",
-  "resumeReload": "passed",
+  "selectedSchemeOnly": true,
+  "sixBoards": true,
+  "evidenceBeforeCourses": true,
+  "resourceFallback": true,
+  "resumeAcrossReload": true,
+  "courseCompletionSeparate": true,
+  "freshIndependentVerification": true,
+  "actualGrammarChoice": true,
+  "noRedundantCourse": true,
+  "boundedPractice": true,
+  "skipNotMastery": true,
+  "memoryRetentionAndTransfer": true,
+  "memoryHandoffNotDiagnosis": true,
+  "directHashes": true,
   "layout": [
     {
-      "id": "M1",
-      "fields": 6,
-      "images": true,
-      "art": true,
-      "overflow": []
-    },
-    {
-      "id": "M2",
-      "fields": 6,
-      "images": true,
-      "art": true,
-      "overflow": []
-    },
-    {
-      "id": "M3",
-      "fields": 6,
-      "images": true,
-      "art": true,
-      "overflow": []
-    },
-    {
-      "id": "M4",
-      "fields": 6,
-      "images": true,
-      "art": true,
-      "overflow": []
-    },
-    {
-      "id": "M5",
-      "fields": 6,
-      "images": true,
-      "art": true,
-      "overflow": []
-    },
-    {
       "id": "S1",
-      "fields": 6,
-      "images": true,
-      "art": true,
+      "specs": 6,
+      "teacher": true,
       "overflow": []
     },
     {
       "id": "S2",
-      "fields": 6,
-      "images": true,
-      "art": true,
+      "specs": 6,
+      "teacher": true,
       "overflow": []
     },
     {
       "id": "S3",
-      "fields": 6,
-      "images": true,
-      "art": true,
+      "specs": 6,
+      "teacher": true,
       "overflow": []
     },
     {
       "id": "S4",
-      "fields": 6,
-      "images": true,
-      "art": true,
+      "specs": 6,
+      "teacher": true,
       "overflow": []
     },
     {
       "id": "S5",
-      "fields": 6,
-      "images": true,
-      "art": true,
+      "specs": 6,
+      "teacher": true,
       "overflow": []
     },
     {
       "id": "S6",
-      "fields": 6,
-      "images": true,
-      "art": true,
+      "specs": 6,
+      "teacher": true,
+      "overflow": []
+    },
+    {
+      "id": "S7",
+      "specs": 6,
+      "teacher": true,
       "overflow": []
     }
   ],
-  "base_commit": "033d63be60b5bc531909505fdf246744d5b11b4d",
-  "previousThreeSchemesRegression": "passed",
-  "totalProductPages": 29
+  "classroomRegression": "passed: whole group, weak-only queue, correct bypass, bounded failure, per-item reports",
+  "finalCopyAndStructure": "passed"
 }
